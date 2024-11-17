@@ -39,13 +39,13 @@
                 </ul>
         </div>
 
-        {% if graph_image_path %}
-            <button id="toggleGraphBtn">Mostrar/Ocultar Gráfico</button>
-            <div class="graph" id="graphContainer">
-                <h2>Grafo:</h2>
-                <img src="{{ url_for('static', filename='graph.png') }}" alt="Product Graph">
-            </div>
-        {% endif %}
+        {% if graph_image_base64 %}
+    <button id="toggleGraphBtn">Mostrar/Ocultar Gráfico</button>
+    <div class="graph" id="graphContainer">
+        <h2>Grafo:</h2>
+        <img src="data:image/png;base64,{{ graph_image_base64 }}" alt="Product Graph">
+    </div>
+{% endif %}
     </div>
 </body>
 </html>

@@ -2,6 +2,8 @@ from flask import Flask, render_template, request
 import csv
 import networkx as nx
 import matplotlib.pyplot as plt
+import base64
+from io import BytesIO
 
 app = Flask(__name__)
 
@@ -15,7 +17,7 @@ with open('Products.txt', 'r', encoding='utf-8') as archivo:
             "rating": float(fila['rating'])
         })
 
-def graficar_grafo(recomendaciones, producto_ingresado, filename='static/graph.png'):
+def graficar_grafo(recomendaciones, producto_ingresado):
     G = nx.Graph()
 
     # Add the input product node
@@ -30,8 +32,16 @@ def graficar_grafo(recomendaciones, producto_ingresado, filename='static/graph.p
     plt.figure(figsize=(12, 8))
     nx.draw(G, pos, with_labels=True, node_size=5000, node_color='skyblue', font_size=10, font_weight='bold', edge_color='gray')
     plt.title('Product Graph')
-    plt.savefig(filename)
+
+    # Save the plot to a BytesIO object
+    buf = BytesIO()
+    plt.savefig(buf, format='png')
     plt.close()
+    buf.seek(0)
+
+    # Encode the image to base64
+    image_base64 = base64.b64encode(buf.read()).decode('utf-8')
+    return image_base64
 
 def sugerir_productos_dfs(producto_nombre, num_recomendaciones=5):
     producto_ingresado = next((p for p in productos if producto_nombre.lower() in p['nombre'].lower()), None)
@@ -72,13 +82,12 @@ def sugerir_productos_dfs(producto_nombre, num_recomendaciones=5):
 @app.route('/', methods=['GET', 'POST'])
 def index():
     sugerencia = []
-    graph_image_path = None
+    graph_image_base64 = None
     if request.method == 'POST':
         producto_nombre = request.form['producto']
-        sugerencia, producto_ingresado, graph_image_path = sugerir_productos_dfs(producto_nombre)
+        sugerencia, producto_ingresado, _ = sugerir_productos_dfs(producto_nombre)
         if producto_ingresado:
-            graficar_grafo(sugerencia, producto_ingresado, graph_image_path)
-    return render_template('index.html', sugerencia=sugerencia, graph_image_path=graph_image_path)
-
+            graph_image_base64 = graficar_grafo(sugerencia, producto_ingresado)
+    return render_template('index.html', sugerencia=sugerencia, graph_image_base64=graph_image_base64)
 if __name__ == '__main__':
     app.run(debug=True)
