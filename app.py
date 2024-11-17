@@ -14,7 +14,7 @@ with open('Products.txt', 'r', encoding='utf-8') as archivo:
             "category": fila['category'],
             "rating": float(fila['rating'])
         })
-def graficar_grafo(grafo, filename='static/graph.png'):
+def graficar_grafo(grafo, producto_ingresado, filename='static/graph.png'):
     G = nx.Graph()
 
     for categoria, productos in grafo.items():
@@ -24,9 +24,16 @@ def graficar_grafo(grafo, filename='static/graph.png'):
                 if producto != otro_producto:
                     G.add_edge(producto['nombre'], otro_producto['nombre'])
 
-    pos = nx.spring_layout(G)
+    # Calculate distances from the input product
+    distances = nx.single_source_shortest_path_length(G, producto_ingresado['nombre'])
+    closest_nodes = sorted(distances, key=distances.get)[:15]
+
+    # Create a subgraph with the closest nodes
+    subgraph = G.subgraph(closest_nodes)
+
+    pos = nx.spring_layout(subgraph)
     plt.figure(figsize=(12, 8))
-    nx.draw(G, pos, with_labels=True, node_size=5000, node_color='skyblue', font_size=10, font_weight='bold', edge_color='gray')
+    nx.draw(subgraph, pos, with_labels=True, node_size=5000, node_color='skyblue', font_size=10, font_weight='bold', edge_color='gray')
     plt.title('Product Graph')
     plt.savefig(filename)
     plt.close()
@@ -46,7 +53,7 @@ def sugerir_productos_dfs(producto_nombre, num_recomendaciones=5):
 
     # Graficar el grafo y guardar la imagen
     graph_image_path = 'static/graph.png'
-    graficar_grafo(grafo, graph_image_path)
+    graficar_grafo(grafo, producto_ingresado, graph_image_path)
 
     # DFS para buscar productos relacionados
     stack = grafo[producto_ingresado['category']]  # Empezamos con los productos de la misma categoría
