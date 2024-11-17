@@ -7,6 +7,7 @@ from io import BytesIO
 
 app = Flask(__name__)
 
+
 # Función para cargar los productos desde nuestro dataset 'Products.txt'
 def cargar_productos():
     productos = []
@@ -20,8 +21,10 @@ def cargar_productos():
             })
     return productos
 
+
 # Cargar los productos al iniciar la aplicación
 productos = cargar_productos()
+
 
 # Función para graficar el grafo de recomendaciones
 def graficar_grafo(recomendaciones, producto_ingresado):
@@ -47,6 +50,7 @@ def graficar_grafo(recomendaciones, producto_ingresado):
     image_base64 = base64.b64encode(buf.read()).decode('utf-8')
     return image_base64
 
+
 # Función para sugerir productos utilizando DFS
 def sugerir_productos_dfs(producto_nombre, num_recomendaciones=5):
     producto_ingresado = next((p for p in productos if producto_nombre.lower() in p['nombre'].lower()), None)
@@ -68,7 +72,8 @@ def sugerir_productos_dfs(producto_nombre, num_recomendaciones=5):
         producto = stack.pop()
         if producto['nombre'] not in visitados:
             visitados.add(producto['nombre'])
-            if producto['category'] == producto_ingresado['category'] and producto['nombre'] != producto_ingresado['nombre']:
+            if producto['category'] == producto_ingresado['category'] and producto['nombre'] != producto_ingresado[
+                'nombre']:
                 productos_relacionados.append(producto)
 
     productos_relacionados.sort(key=lambda x: x['rating'], reverse=True)
@@ -78,6 +83,7 @@ def sugerir_productos_dfs(producto_nombre, num_recomendaciones=5):
         return recomendaciones, producto_ingresado
     else:
         return "No se encontraron productos relacionados.", producto_ingresado
+
 
 # Ruta principal de la aplicación
 @app.route('/', methods=['GET', 'POST'])
@@ -90,6 +96,7 @@ def index():
         if producto_ingresado:
             graph_image_base64 = graficar_grafo(sugerencia, producto_ingresado)
     return render_template('index.html', sugerencia=sugerencia, graph_image_base64=graph_image_base64)
+
 
 # Ejecutar la aplicación
 if __name__ == '__main__':
