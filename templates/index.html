@@ -8,44 +8,41 @@
     <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
 </head>
 <body>
-    <header>
-        <div class="logo">
-            <img src="{{ url_for('static', filename='images/supermarket-logo.png') }}">
-        </div>
-    </header>
-
-    <div class="container">
-        <h1>
-            ¡Conoce aquí que producto<br>
-            es ideal para ti!
-        </h1>
-        <form method="POST">
-            <label for="producto">Product name:</label>
-            <input type="text" id="producto" name="producto" required>
-            <button type="submit">Recomendar</button>
-        </form>
-
-        <div class="sugerencia">
-            <h2>Estos son tus productos sugeridos:</h2>
-            <br>
-            {% if sugerencia %}
-            {% endif %}
-                <ul>
-                    {% for producto in sugerencia %}
-                        <li>
-                            <strong>{{ producto['nombre'] }}</strong> con un rating de {{ producto['rating'] }}
-                        </li>
-                    {% endfor %}
-                </ul>
-        </div>
-
-        {% if graph_image_base64 %}
-    <button id="toggleGraphBtn">Mostrar/Ocultar Gráfico</button>
-    <div class="graph" id="graphContainer">
-        <h2>Grafo:</h2>
-        <img src="data:image/png;base64,{{ graph_image_base64 }}" alt="Product Graph">
+<header>
+    <div class="logo">
+        <img src="{{ url_for('static', filename='images/supermarket-logo.png') }}" alt="Supermarket Logo">
     </div>
-{% endif %}
+</header>
+
+<div class="container">
+    <h1>¡Conoce aquí que producto<br>es ideal para ti!</h1>
+    <form method="POST">
+        <label for="producto">Product name:</label>
+        <input type="text" id="producto" name="producto" required>
+        <button type="submit">Recomendar</button>
+    </form>
+
+    <div class="sugerencia">
+        <h2>Estos son tus productos sugeridos:</h2>
+        <br>
+        {% if sugerencia %}
+            <ul>
+                {% for producto in sugerencia %}
+                    <li>
+                        <strong>{{ producto['nombre'] }}</strong> con un rating de {{ producto['rating'] }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
     </div>
+
+    {% if graph_image_base64 %}
+        <button id="toggleGraphBtn">Mostrar/Ocultar Gráfico</button>
+        <div class="graph" id="graphContainer">
+            <h2>Grafo:</h2>
+            <img src="data:image/png;base64,{{ graph_image_base64 }}" alt="Product Graph">
+        </div>
+    {% endif %}
+</div>
 </body>
 </html>
