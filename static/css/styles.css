@@ -1,0 +1,205 @@
+/* General styles for responsiveness */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+/* Responsive container */
+.container {
+    width: 90%;
+    max-width: 900px;
+    margin: 10px auto;
+    padding: 30px;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.container:hover {
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+    transform: translateY(-5px);
+}
+
+.graph {
+    display: none;
+    margin-top: 30px;
+}
+
+.graph img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+}
+
+/* Responsive header */
+header .logo img {
+    height: 80px;
+    transition: transform 0.3s ease;
+}
+
+header .logo img:hover {
+    transform: scale(1.1);
+}
+
+/* Responsive titles */
+h1 {
+    color: #f38322;
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+/* Responsive form */
+form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+    align-items: center;
+    color: #444;
+    font-size: 18px;
+}
+
+label {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+input[type="text"] {
+    padding: 12px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    width: 100%;
+    max-width: 450px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+input[type="text"]:focus {
+    border-color: #f38322;
+    outline: none;
+}
+
+button {
+    padding: 12px;
+    background-color: #66ad40;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: 100%;
+    max-width: 450px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: #5e9935;
+    transform: translateY(-3px);
+}
+
+.sugerencia {
+    margin-top: 30px;
+    padding: 10px;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    text-align: left;
+    font-size: 18px;
+    color: #333;
+}
+
+.sugerencia ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sugerencia li {
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+/* Responsive graph */
+.graph {
+    margin-top: 30px;
+}
+
+.graph img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+}
+
+/* Media queries for smaller screens */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 28px;
+    }
+
+    .container {
+        margin: 50px auto;
+        padding: 20px;
+    }
+
+    button {
+        font-size: 16px;
+    }
+
+    .sugerencia {
+        font-size: 16px;
+    }
+
+    .sugerencia li {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 24px;
+    }
+
+    .container {
+        margin: 20px auto;
+        padding: 15px;
+    }
+
+    button {
+        font-size: 14px;
+    }
+
+    .sugerencia {
+        font-size: 14px;
+    }
+
+    .sugerencia li {
+        font-size: 12px;
+    }
+}
+
+#toggleGraphBtn {
+    margin-top: 20px; /* Adjust the value as needed */
+    padding: 12px;
+    background-color: #66ad40;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: 100%;
+    max-width: 450px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+#toggleGraphBtn:hover {
+    background-color: #5e9935;
+    transform: translateY(-3px);
+}
